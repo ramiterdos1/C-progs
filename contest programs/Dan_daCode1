@@ -1,0 +1,124 @@
+    #include<iostream>
+    #include<cstdlib>
+    using namespace std;
+
+    typedef struct
+    {
+    long long int end;
+    long long int comp;
+    } cell;
+
+    typedef struct
+    {
+    int s;
+    int e;
+    long long int c;
+    } event;
+
+    int comparator (const void*, const void*);
+
+    main()
+    {
+    int t, n, i, j;
+    long long int res;
+    event e[2001];
+    cell c[2][2001];
+
+    for(cin>>t; t>0; t--)
+    {
+    cin>>n;
+
+    for(i=1; i<=n; i++)
+    {
+    cin>>e[i].s>>e[i].e>>e[i].c;
+    }
+
+    qsort(&e[1], n, sizeof(event), comparator);
+    c[0][0].end=0;
+    c[0][0].comp=0;
+    c[1][0].end=0;
+    c[1][0].comp=0;
+
+    for(i=1; i<=n; i++)
+    {
+    j=i-1;
+    c[0][i].end = e[i].e;
+
+    while(c[1][j].end>e[i].s)
+    {
+    j--;
+    }
+
+    c[0][i].comp = ((c[1][j].comp>c[0][i-1].comp || c[0][i-1].end>e[i].s)?c[1][j].comp:c[0][i-1].comp)+e[i].c;
+    if(c[0][i-1].comp>c[1][i-1].comp)
+    {
+    c[1][i].end = c[0][i-1].end;
+    c[1][i].comp = c[0][i-1].comp;
+    }
+    else
+    {
+    c[1][i].end = c[1][i-1].end;
+    c[1][i].comp = c[1][i-1].comp;
+    }
+    }
+
+    res=(c[0][n].comp>c[1][n].comp)?c[0][n].comp:c[1][n].comp;
+    cout<<res<<endl;
+    }
+    }
+
+    int comparator (const void* e1, const void* e2)
+    {
+    if(((event *)e1)->e<((event *)e2)->e)
+    return -1;
+    if(((event *)e1)->e>((event *)e2)->e)
+    return 1;
+    return 0;
+    }
+
+
+
+    eta dilum MAXCOMP er code
+
+    DIAMOND er code tao dicchi
+
+#include<cstdlib>
+using namespace std;
+
+main()
+{
+long t, n, i, j, k, l, r, p;
+float a[2001000];
+a[0]=1.0f;
+a[1]=a[2]=0.5f;
+for(i=3; i<2001000; i++)
+{
+a[i]=0;
+}
+for(i=2; i<=1999; i++)
+{
+r=((i+1)*i)/2;
+p=((i-1)*(i-2))/2;
+a[r]=0.5f;
+a[r+i]=0.5f;
+for(j=0; j<=i-2; j++)
+{
+a[r+j]+=a[p+j]*0.25f;
+a[r+j+1]+=a[p+j]*0.5f;
+a[r+j+2]+=a[p+j]*0.25f;
+}
+}
+double sum;
+for(cin>>t; t>0; t--)
+{
+cin>>n;
+sum=0.0f;
+r=((n-1)*n)/2;
+for(i=0; i<n; i++)
+{
+cin>>l;
+sum+=l*a[r+i];
+}
+cout<<sum<<endl;
+}
+
